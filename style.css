@@ -15,6 +15,56 @@
   --transition-med: 220ms ease-out;
   --nav-height: 72px;
 }
+/* =============================
+   ACM TCET FULLSCREEN PRELOADER
+   ============================= */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+}
+
+#preloader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Logo */
+.preloader-logo {
+  width: 92px;
+  height: auto;
+  margin-bottom: 26px;
+  filter: drop-shadow(0 0 16px rgba(56, 232, 255, 0.7));
+}
+
+/* Neon Dual-Color Ring Spinner */
+.neon-spinner
+ {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  border: 6px solid transparent;
+  border-top-color: #38e8ff; /* ACM Blue */
+  border-right-color: #a855f7; /* ACM Purple */
+  animation: rotateSpinner 1s linear infinite;
+  box-shadow: 0 0 22px rgba(56, 232, 255, 0.4),
+              0 0 32px rgba(168, 85, 247, 0.35);
+}
+
+@keyframes rotateSpinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 
 * {
   margin: 0;
@@ -1051,4 +1101,70 @@ footer {
   .gallery-grid {
     grid-template-columns: 1fr;
   }
+  /* =============================
+   MOBILE OPTIMIZATION HELPERS
+   ============================= */
+
+/* Reduce heavy shadows & animations on very low-end phones */
+@media (max-width: 480px) {
+  .team-card,
+  .card,
+  .gallery-item,
+  .event-card {
+    transition: none !important;
+    box-shadow: none !important;
+  }
+
+  .hero-orbit {
+    animation: none !important;
+  }
+
+  .hero-orbit-chip {
+    display: none;
+  }
+}
+
+/* EXTREMELY low-power devices → disable some effects */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.page-transition {
+  position: fixed;
+  inset: 0;
+  background: #020617;
+  transform: scaleX(1);   /* ← FULLY covering the page */
+  transform-origin: left;
+  z-index: 60;
+}
+.logo-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 232, 255, 0.6);
+  background: radial-gradient(circle at 30% 0, #38e8ff, #0f172a 52%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;   /* IMPORTANT */
+  box-shadow: 0 0 28px rgba(56, 232, 255, 0.7);
+}
+
+/* Logo inside circle */
+.logo-circle .logo-img {
+  width: 75%;
+  height: 75%;
+  object-fit: contain;
+  display: block;
+}
+body {
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+body.loaded {
+  opacity: 1;
+}
+
 }
